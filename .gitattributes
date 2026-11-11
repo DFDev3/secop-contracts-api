@@ -1,0 +1,3 @@
+# Store text files with LF line endings in the repository. This keeps scripts and the
+# Dockerfile working inside Linux containers and CI, even though we develop on Windows.
+* text=auto eol=lf
