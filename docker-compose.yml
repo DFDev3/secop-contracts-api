@@ -1,0 +1,22 @@
+# Local development database. Start it with:  docker compose up -d
+# It runs the same PostgreSQL major version we plan to use on Neon (D7).
+services:
+  db:
+    image: postgres:17
+    container_name: secop-db
+    environment:
+      POSTGRES_USER: secop
+      POSTGRES_PASSWORD: secop   # local-only password; the cloud database uses a real secret
+      POSTGRES_DB: secop
+    ports:
+      - "5432:5432"              # host port : container port
+    volumes:
+      - pgdata:/var/lib/postgresql/data   # keeps the data when the container is recreated
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U secop -d secop"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:
